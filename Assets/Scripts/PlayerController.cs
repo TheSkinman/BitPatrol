@@ -7,17 +7,22 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     public Rigidbody2D theRB;
     public float jumpForce;
-    
+
     private bool isGrounded;
     public Transform groundCheckPoint;
     public LayerMask whatIsGround;
 
     private bool canDoubleJump;
 
+    private Animator anim;
+
+    private SpriteRenderer theSR;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
+        theSR = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -27,9 +32,10 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, .2f, whatIsGround);
 
+
         if (isGrounded)
         {
-                canDoubleJump = true;
+            canDoubleJump = true;
         }
 
         if (Input.GetButtonDown("Jump"))
@@ -48,5 +54,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (theRB.velocity.x < 0)
+        {
+            theSR.flipX = true;
+        }
+        else if (theRB.velocity.x > 0)
+        {
+            theSR.flipX = false;
+        }
+
+        anim.SetFloat("moveSpeed", Mathf.Abs(theRB.velocity.x));
+        anim.SetBool("isGrounded", isGrounded);
     }
 }
