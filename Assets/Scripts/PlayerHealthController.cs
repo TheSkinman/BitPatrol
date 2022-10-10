@@ -63,7 +63,8 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                gameObject.SetActive(false);
+
+                LevelManager.instance.RespawnPlayer();
             }
             else
             {
@@ -77,6 +78,12 @@ public class PlayerHealthController : MonoBehaviour
 
             UIController.instance.UpdateHealthDisplay();
         }
+    }
+
+    public void InstantDeath()
+    {
+        currentHealth = 0;
+        UIController.instance.UpdateHealthDisplay();
     }
 
     private void Blink()
