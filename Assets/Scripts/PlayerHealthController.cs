@@ -18,6 +18,8 @@ public class PlayerHealthController : MonoBehaviour
     private float blinkCounter;
     private bool blinkOff;
 
+    public GameObject deathEffect;
+
     private void Awake()
     {
         instance = this;
@@ -64,6 +66,8 @@ public class PlayerHealthController : MonoBehaviour
             {
                 currentHealth = 0;
 
+                Instantiate(deathEffect, transform.position, transform.rotation);
+
                 LevelManager.instance.RespawnPlayer();
             }
             else
@@ -96,5 +100,16 @@ public class PlayerHealthController : MonoBehaviour
         {
             theSR.color = new Color(theSR.color.r, theSR.color.g, theSR.color.b, 1f);
         }
+    }
+
+    public void HealPlayer()
+    {
+        currentHealth++;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        UIController.instance.UpdateHealthDisplay();
     }
 }
