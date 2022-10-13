@@ -78,6 +78,8 @@ public class PlayerHealthController : MonoBehaviour
                 Blink();
 
                 PlayerController.instance.KnockBack();
+
+                AudioManager.instance.PlaySFX(9);
             }
 
             UIController.instance.UpdateHealthDisplay();
@@ -88,6 +90,7 @@ public class PlayerHealthController : MonoBehaviour
     {
         currentHealth = 0;
         UIController.instance.UpdateHealthDisplay();
+        AudioManager.instance.PlaySFX(8);
     }
 
     private void Blink()
