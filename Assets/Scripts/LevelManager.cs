@@ -35,7 +35,13 @@ public class LevelManager : MonoBehaviour
         PlayerController.instance.gameObject.SetActive(false);
         AudioManager.instance.PlaySFX(8);
 
-        yield return new WaitForSeconds(waitToRespawn);
+        yield return new WaitForSeconds(waitToRespawn - (1 / UIController.instance.fadeSpeed));
+
+        UIController.instance.FadeToBlack();
+
+        yield return new WaitForSeconds((1 / UIController.instance.fadeSpeed) + .2f);
+
+        UIController.instance.FadeFromBlack();
 
         PlayerController.instance.transform.position = CheckpointController.instance.spawnPoint;
         
