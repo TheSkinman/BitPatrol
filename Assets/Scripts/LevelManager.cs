@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
 
     public string levelToLoad;
 
+    public float timeInLevel;
+
     private void Awake()
     {
         instance = this;
@@ -19,13 +21,13 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeInLevel = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        timeInLevel += Time.deltaTime;
     }
 
     public void RespawnPlayer()
@@ -62,6 +64,8 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator EndLevelCo()
     {
+        AudioManager.instance.PlayLevelVictory();
+
         PlayerController.instance.stopInput = true;
         CameraConroller.instance.stopFollow = true;
         
@@ -71,7 +75,36 @@ public class LevelManager : MonoBehaviour
 
         UIController.instance.FadeToBlack();
 
-        yield return new WaitForSeconds((1f / UIController.instance.fadeSpeed) + .25f);
+        yield return new WaitForSeconds((1f / UIController.instance.fadeSpeed) + 3f);
+
+        PlayerPrefs.SetInt(SceneManager.GetActiveScene().name + "_unlocked", 1);
+        PlayerPrefs.SetString("CurrentLevel", SceneManager.GetActiveScene().name);
+
+        if (PlayerPrefs.HasKey(SceneManager.GetActiveScene().name + "_gems"))
+        {
+            if (gemsCollected > PlayerPrefs.GetInt(SceneManager.GetActiveScene().name + "_gems"))
+            {
+                PlayerPrefs.SetInt(SceneManager.GetActiveScene().name + "_gems", gemsCollected);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetInt(SceneManager.GetActiveScene().name + "_gems", gemsCollected);
+        }
+
+        if (PlayerPrefs.HasKey(SceneManager.GetActiveScene().name + "_time"))
+        {
+            if (timeInLevel < PlayerPrefs.GetFloat(SceneManager.GetActiveScene().name + "_time"))
+            {
+                PlayerPrefs.SetFloat(SceneManager.GetActiveScene().name + "_time", timeInLevel);
+            }
+        }
+        else
+        {
+            PlayerPrefs.SetFloat(SceneManager.GetActiveScene().name + "_time", timeInLevel);
+        }
+
+
 
         SceneManager.LoadScene(levelToLoad);
     }
