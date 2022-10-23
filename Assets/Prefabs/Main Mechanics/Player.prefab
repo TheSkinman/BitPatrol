@@ -72,6 +72,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathEffect: {fileID: 439565298259134593, guid: 88c24956bd1fd134a94bf5be678527dd,
     type: 3}
+  collectible: {fileID: 0}
+  chanceToDrop: 0
 --- !u!1 &5518000641017567993
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,10 +218,11 @@ MonoBehaviour:
   groundCheckPoint: {fileID: 5518000641201181536}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1280
   knockBackLength: 0.3
   knockBackForce: 5
   bounceForce: 20
+  stopInput: 0
 --- !u!95 &5518000641017567991
 Animator:
   serializedVersion: 3
